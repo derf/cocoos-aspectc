@@ -37,8 +37,8 @@
 #ifndef OS_PORT_H_
 #define OS_PORT_H_
 
-//#include <interrupt.h>
-#define os_enable_interrupts()
-#define os_disable_interrupts()
+#include <msp430.h>
+#define os_enable_interrupts() __eint()
+#define os_disable_interrupts() __dint()
 
 #endif

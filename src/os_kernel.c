@@ -36,6 +36,7 @@
 
 
 #include "cocoos.h"
+#include <msp430.h>
 
 static void os_schedule( void );
 

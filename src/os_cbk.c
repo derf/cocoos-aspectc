@@ -47,5 +47,7 @@
 */
 /*********************************************************************************/
 void os_cbkSleep( void ) {
-    /* Enter low power mode here */
+	asm volatile("nop");
+	LPM3;
+	asm volatile("nop");
 }
