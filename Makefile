@@ -20,9 +20,9 @@ INCLUDES = -Iinc -I/opt/msp430/ti/gcc/include
 # OUTDIR: directory to use for output
 OUTDIR = build
 # define flags
-CFLAGS = -mmcu=$(MCU) -std=c++11 -g -Os -Wall -Wextra -Wunused $(INCLUDES)
+CFLAGS = -mmcu=$(MCU) -std=c++11 -g -Os -Wall -Wextra -Wunused -ffunction-sections $(INCLUDES)
 ASFLAGS = -mmcu=$(MCU) -x assembler-with-cpp -Wa,-gstabs
-LDFLAGS = -mmcu=$(MCU) -Wl,-Map=$(OUTDIR)/$(TARGET).map -Wl,--library-path=/opt/msp430/ti/gcc/include
+LDFLAGS = -mmcu=$(MCU) -Wl,-Map=$(OUTDIR)/$(TARGET).map -Wl,--library-path=/opt/msp430/ti/gcc/include -Wl,--gc-sections
 #######################################
 # end of user configuration
 #######################################
@@ -66,7 +66,7 @@ $(OUTDIR)/$(TARGET).elf: $(OBJECTS)
 	$(CC) $(OBJECTS) $(LDFLAGS) $(LIBS) -o $@
 
 $(OUTDIR)/%.o: src/%.c | $(OUTDIR)
-	$(CC) -c $(CFLAGS) -o $@ $<
+	ag++ -r build/repo.acp -v 0 --c_compiler $(CC) --keep_woven -p src -c $(CFLAGS) -o $@ $<
 
 # assembly listing
 %.lst: %.c

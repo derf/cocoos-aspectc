@@ -52,10 +52,11 @@ int main(void)
 	return 0;
 }
 
-__attribute__ ((interrupt(TIMER0_A0_VECTOR))) void TIMER0_A0_ISR(void)
+#ifndef __acweaving
+__attribute__((interrupt(TIMER0_A0_VECTOR))) __attribute((wakeup)) void TIMER0_A0_ISR(void)
 {
 	os_tick();
 	P1OUT ^= BIT0;
-	__low_power_mode_off_on_exit();
 	__eint();
 }
+#endif
