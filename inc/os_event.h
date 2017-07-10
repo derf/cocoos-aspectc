@@ -43,7 +43,7 @@
 #include "stdarg.h"
 
 #ifdef __cplusplus
-extern "C" {
+//extern "C" {
 #endif
 
 #define EVENT_OFS1   10000
@@ -107,7 +107,7 @@ void os_event_set_signaling_tid( Evt_t ev, uint8_t tid );
 Evt_t event_last_signaled_get(void);
 
 #ifdef __cplusplus
-}
+//}
 #endif
 
 #endif

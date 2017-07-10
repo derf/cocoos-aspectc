@@ -41,7 +41,7 @@
 #include <stdint.h>
 
 #ifdef __cplusplus
-extern "C" {
+//extern "C" {
 #endif
 
 void os_on_assert( uint16_t line );
@@ -55,6 +55,6 @@ void os_on_assert( uint16_t line );
 #endif
 
 #ifdef __cplusplus
-}
+//}
 #endif
 #endif

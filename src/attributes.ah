@@ -1,0 +1,29 @@
+#ifndef ATTRIBUTES_AH
+#define ATTRIBUTES_AH
+#include <msp430.h>
+
+extern void illegal_thread_declaration(void);
+
+unsigned char ints_enabled(void) {
+	return 0;
+}
+
+namespace OS {
+	attribute task();
+	attribute schedulerCall();
+	attribute idle();
+	attribute tick();
+};
+
+namespace TaskAPI {
+	attribute create();
+	attribute kill();
+};
+
+aspect Foo {
+	advice execution("% blink_taska()") : before() {
+		illegal_thread_declaration();
+	}
+};
+
+#endif

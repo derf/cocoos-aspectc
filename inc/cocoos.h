@@ -53,7 +53,7 @@
 
 #ifdef __cplusplus
 
-extern "C" {
+//extern "C" {
 
 #endif
 
@@ -106,7 +106,7 @@ uint8_t os_running( void );
 
 #ifdef __cplusplus
 
-}
+//}
 
 #endif
 

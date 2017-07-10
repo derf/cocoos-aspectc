@@ -40,7 +40,7 @@
 #include "cocoos.h"
 
 #ifdef __cplusplus
-extern "C" {
+//extern "C" {
 #endif
 
 
@@ -835,14 +835,17 @@ static void task2(void) {
 
 void os_init( void );
 void os_start( void );
+[[OS::tick()]]
 void os_tick( void );
 void os_sub_tick( uint8_t id );
 void os_sub_nTick( uint8_t id, uint16_t nTicks );
 
 
+[[TaskAPI::create()]]
 uint8_t task_create( taskproctype taskproc, uint8_t prio, Msg_t* msgPool, uint8_t poolSize, uint16_t msgSize );
 TaskState_t task_state_get( taskproctype taskproc );
 uint8_t task_id_get( taskproctype taskproc );
+[[TaskAPI::kill()]]
 void task_kill( taskproctype taskproc );
 
 Sem_t sem_bin_create( uint8_t initial );
@@ -851,10 +854,11 @@ Sem_t sem_counting_create( uint8_t max, uint8_t initial );
 Evt_t event_create( void );
 uint8_t event_signaling_taskId_get( Evt_t ev );
 
+[[OS::idle()]]
 void os_cbkSleep( void );
 
 #ifdef __cplusplus
-}
+//}
 #endif
 
 #endif

@@ -40,14 +40,14 @@
 /** @file os_defines.h cocoOS user configuration */
 
 #ifdef __cplusplus
-extern "C" {
+//extern "C" {
 #endif
 
 #include <stdint.h>
 
 /** Max number of used tasks
 * @remarks Must be defined. @n Allowed range: 0-254. Value must not be exceeded */
-#define N_TASKS             3
+#define N_TASKS             4
 
 
 /** Max number of used message queues
@@ -62,7 +62,7 @@ extern "C" {
 
 /** Max number of used events
 * @remarks Must be defined. @n Allowed range: 0-254. Value must not be exceeded */
-#define N_EVENTS            1
+#define N_EVENTS            2
 
 
 /** Round Robin scheduling
@@ -77,7 +77,7 @@ typedef uint16_t Mem_t;
 #define NO_MSG_ID   0xff
 #define ISR_TID     0xfe
 #ifdef __cplusplus
-}
+//}
 #endif
 
 #endif

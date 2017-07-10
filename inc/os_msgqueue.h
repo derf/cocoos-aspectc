@@ -43,7 +43,7 @@
 #include "os_defines.h"
 
 #ifdef __cplusplus
-extern "C" {
+//extern "C" {
 #endif
 
 
@@ -136,7 +136,7 @@ uint8_t os_msg_receive( Msg_t *msg, MsgQ_t queue );
 
 
 #ifdef __cplusplus
-}
+//}
 #endif
 
 #endif

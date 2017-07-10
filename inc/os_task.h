@@ -43,7 +43,7 @@
 #include "os_msgqueue.h"
 
 #ifdef __cplusplus
-extern "C" {
+//extern "C" {
 #endif
 
 typedef struct tcb tcb;
@@ -58,7 +58,6 @@ typedef enum {
     RUNNING,
     KILLED
 } TaskState_t;
-
 
 #define TASK_OFS1    30000
 #define TASK_OFS2    31000
@@ -97,6 +96,7 @@ void os_task_tick( uint8_t id, uint16_t tickSize );
 void os_task_signal_event( Evt_t eventId );
 void os_task_run( void );
 uint16_t os_task_internal_state_get( uint8_t tid );
+[[OS::schedulerCall()]]
 void os_task_internal_state_set( uint8_t tid, uint16_t state );
 void os_task_release_waiting_task( Sem_t sem );
 uint8_t os_task_waiting_this_semaphore( Sem_t sem );
@@ -106,7 +106,7 @@ MsgQ_t os_task_msgQ_get( uint8_t tid );
 TaskState_t task_state_get_by_id( uint8_t tid );
 
 #ifdef __cplusplus
-}
+//}
 #endif
 
 

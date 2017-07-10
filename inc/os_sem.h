@@ -42,7 +42,7 @@
 #include "cocoos.h"
 
 #ifdef __cplusplus
-extern "C" {
+//extern "C" {
 #endif
 
 #define SEM_OFS1 20000
@@ -90,7 +90,7 @@ void os_sem_decrement( Sem_t sem );
 void os_sem_increment( Sem_t sem );
 
 #ifdef __cplusplus
-}
+//}
 #endif
 
 #endif
