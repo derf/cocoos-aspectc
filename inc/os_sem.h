@@ -70,15 +70,6 @@
                                 } while (0)
 
 
-#define OS_SIGNAL_SEM_NO_SCHEDULE(sem)  do {\
-                                            if ( os_task_waiting_this_semaphore( sem ) == 0 ) {\
-                                                os_sem_increment( sem );\
-                                            }\
-                                            else {\
-                                                os_task_release_waiting_task( sem );\
-                                            }\
-                                        } while (0)
-
 
 
 
@@ -88,6 +79,19 @@ void os_sem_init(void);
 uint8_t os_sem_larger_than_zero( Sem_t sem );
 void os_sem_decrement( Sem_t sem );
 void os_sem_increment( Sem_t sem );
+
+extern uint8_t os_task_waiting_this_semaphore(Sem_t sem);
+extern void os_task_release_waiting_task(Sem_t sem);
+[[OS::ISROnly()]]
+static inline void OS_SIGNAL_SEM_NO_SCHEDULE(Sem_t sem)
+{
+	if ( os_task_waiting_this_semaphore( sem ) == 0 ) {
+		os_sem_increment( sem );
+	}
+	else {
+		os_task_release_waiting_task( sem );
+	}
+}
 
 #ifdef __cplusplus
 //}

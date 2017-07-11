@@ -3,6 +3,7 @@
 #include <msp430.h>
 
 extern void illegal_thread_declaration(void);
+extern void illegal_isr_function_call(void);
 
 unsigned char ints_enabled(void) {
 	return 0;
@@ -13,6 +14,7 @@ namespace OS {
 	attribute schedulerCall();
 	attribute idle();
 	attribute tick();
+	attribute ISROnly();
 };
 
 namespace TaskAPI {
@@ -20,9 +22,12 @@ namespace TaskAPI {
 	attribute kill();
 };
 
-aspect Foo {
+aspect ErrorAvoidance {
 	advice execution("% blink_taska()") : before() {
 		illegal_thread_declaration();
+	}
+	advice call(OS::ISROnly()) && within(OS::task()) : before() {
+		illegal_isr_function_call();
 	}
 };
 

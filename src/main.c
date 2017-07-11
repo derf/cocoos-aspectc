@@ -22,16 +22,18 @@ static void leftbutton_task(void)
 {
 	task_open();
 	for (;;) {
-		if (!(P4IN & BIT5)) {
+		if (!(P1IN & BIT1)) {
 			event_signal(leftButtonEvent);
 		}
 		task_wait(20);
+		//sem_ISR_signal(ledSem); // will be caught by aspect
+		sem_signal(ledSem);
 	}
 	task_close();
 }
 
 [[OS::task()]]
-static void rightbutton_task(void)
+static void led2_task(void)
 {
 	task_open();
 	for (;;) {
@@ -48,8 +50,11 @@ static void led_task(void)
 {
 	task_open();
 	for (;;) {
-		event_wait(rightButtonEvent);
+		sem_wait(ledSem);
 		P1OUT ^= BIT0;
+		task_wait(5);
+		P1OUT ^= BIT0;
+		task_wait(5);
 	}
 	task_close();
 }
@@ -94,10 +99,10 @@ int main(void)
 	os_init();
 	leftButtonEvent = event_create();
 	rightButtonEvent = event_create();
-	ledSem = sem_bin_create(0);
+	ledSem = sem_counting_create(50, 0);
 	task_create(blink_task, 1, NULL, 0, 0);
 	task_create(leftbutton_task, 2, NULL, 0, 0);
-	task_create(rightbutton_task, 3, NULL, 0, 0);
+	task_create(led2_task, 3, NULL, 0, 0);
 	task_create(led_task, 4, NULL, 0, 0);
 	os_start();
 
@@ -114,6 +119,6 @@ __attribute__((interrupt(TIMER0_A0_VECTOR))) __attribute((wakeup)) void TIMER0_A
 __attribute__((interrupt(PORT4_VECTOR))) void PORT4_ISR(void)
 {
 	P4IFG = 0;
-	P1OUT ^= BIT0;
+	sem_ISR_signal(ledSem);
 }
 #endif
