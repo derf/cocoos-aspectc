@@ -67,6 +67,7 @@ $(OUTDIR)/$(TARGET).elf: $(OBJECTS)
 
 $(OUTDIR)/%.o: src/%.c | $(OUTDIR)
 	ag++ -r build/repo.acp -v 0 --c_compiler $(CC) --keep_woven -p src -p inc -c $(CFLAGS) -o $@ $<
+	#$(CC) -c $(CFLAGS) -o $@ $<
 
 # assembly listing
 %.lst: %.c

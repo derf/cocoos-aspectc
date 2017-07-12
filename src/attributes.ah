@@ -5,9 +5,12 @@
 extern void illegal_thread_declaration(void);
 extern void illegal_isr_function_call(void);
 
-unsigned char ints_enabled(void) {
-	return 0;
-}
+// can also be implemented to log the call via UART
+extern void deprecated_function_call(const char *);
+
+//unsigned char ints_enabled(void) {
+//	return 0;
+//}
 
 namespace OS {
 	attribute task();
@@ -22,12 +25,47 @@ namespace TaskAPI {
 	attribute kill();
 };
 
+namespace GCCAttr {
+	attribute deprecated();
+	attribute disinterrupt();
+};
+
 aspect ErrorAvoidance {
+
 	advice execution("% blink_taska()") : before() {
 		illegal_thread_declaration();
 	}
+
 	advice call(OS::ISROnly()) && within(OS::task()) : before() {
 		illegal_isr_function_call();
+	}
+
+	advice call(GCCAttr::deprecated()) : before() {
+		deprecated_function_call(tjp->signature());
+	}
+
+	/*
+	// causes 4 Byte size increase (1 inlined xor instruction)
+	advice execution(OS::tick()) : before() {
+		P1OUT ^= BIT0;
+	}
+	*/
+
+	/*
+	// causes ~72 Byte size increase
+	advice execution(GCCAttr::disinterrupt()) : around() {
+		__dint();
+		tjp->proceed();
+		__eint();
+	}
+	*/
+
+	// causes 4 Byte size increase
+	advice execution(GCCAttr::disinterrupt()) : before() {
+		__dint();
+	}
+	advice execution(GCCAttr::disinterrupt()) : after() {
+		__eint();
 	}
 };
 

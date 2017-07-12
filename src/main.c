@@ -20,6 +20,7 @@ static void blink_task(void)
 [[OS::task()]]
 static void leftbutton_task(void)
 {
+	static unsigned char cnt = 0;
 	task_open();
 	for (;;) {
 		if (!(P1IN & BIT1)) {
@@ -28,6 +29,12 @@ static void leftbutton_task(void)
 		task_wait(20);
 		//sem_ISR_signal(ledSem); // will be caught by aspect
 		sem_signal(ledSem);
+		if (++cnt == 5) {
+			cnt = 0;
+			sem_signal(ledSem);
+			sem_signal(ledSem);
+			sem_signal(ledSem);
+		}
 	}
 	task_close();
 }
