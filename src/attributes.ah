@@ -44,12 +44,10 @@ aspect ErrorAvoidance {
 		deprecated_function_call(tjp->signature());
 	}
 
-	/*
 	// causes 4 Byte size increase (1 inlined xor instruction)
 	advice execution(OS::tick()) : before() {
 		P1OUT ^= BIT0;
 	}
-	*/
 
 	/*
 	// causes ~72 Byte size increase
@@ -60,11 +58,21 @@ aspect ErrorAvoidance {
 	}
 	*/
 
+	/*
 	// causes 4 Byte size increase
 	advice execution(GCCAttr::disinterrupt()) : before() {
 		__dint();
 	}
 	advice execution(GCCAttr::disinterrupt()) : after() {
+		__eint();
+	}
+	*/
+
+	// doesn't match indirectly nested calls, only direct ones
+	advice call(GCCAttr::disinterrupt()) && !within(GCCAttr::disinterrupt()) : before() {
+		__dint();
+	}
+	advice call(GCCAttr::disinterrupt()) && !within(GCCAttr::disinterrupt()) : after() {
 		__eint();
 	}
 };
