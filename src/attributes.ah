@@ -32,16 +32,14 @@ namespace GCCAttr {
 
 aspect ErrorAvoidance {
 
-	advice execution("% blink_taska()") : before() {
-		illegal_thread_declaration();
-	}
-
 	advice call(OS::ISROnly()) && within(OS::task()) : before() {
-		illegal_isr_function_call();
+		static_assert(sizeof(JoinPoint::That) == 0,
+			"ISR function called from non-ISR context");
 	}
 
 	advice call(GCCAttr::deprecated()) : before() {
-		deprecated_function_call(tjp->signature());
+		static_assert(sizeof(JoinPoint::That) == 0,
+			"Call to a deprecated function");
 	}
 
 	// causes 4 Byte size increase (1 inlined xor instruction)

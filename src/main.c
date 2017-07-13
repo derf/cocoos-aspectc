@@ -6,6 +6,8 @@ Evt_t leftButtonEvent;
 Evt_t rightButtonEvent;
 Sem_t ledSem;
 
+
+/*
 [[GCCAttr::disinterrupt()]]
 static void busy_wait(void)
 {
@@ -25,6 +27,8 @@ static void long_wait(unsigned char count)
 	for (unsigned char i = 0; i < count; i++)
 		busy_wait_wrapper();
 }
+*/
+
 
 [[OS::task()]]
 static void blink_task(void)
@@ -66,7 +70,7 @@ static void led2_task(void)
 	for (;;) {
 		if (!(P1IN & BIT1)) {
 			event_signal(rightButtonEvent);
-			long_wait(5);
+			//long_wait(5);
 		}
 		task_wait(20);
 	}
