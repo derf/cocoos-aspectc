@@ -68,6 +68,16 @@ aspect ErrorAvoidance {
 	}
 	*/
 
+	/*
+	// doesn't match indirectly nested calls, only direct ones
+	advice call(GCCAttr::disinterrupt()) && !within(GCCAttr::disinterrupt()) : around() {
+		__dint();
+		tjp->proceed();
+		__eint();
+	}
+	*/
+
+	/*
 	// doesn't match indirectly nested calls, only direct ones
 	advice call(GCCAttr::disinterrupt()) && !within(GCCAttr::disinterrupt()) : before() {
 		__dint();
@@ -75,6 +85,26 @@ aspect ErrorAvoidance {
 	advice call(GCCAttr::disinterrupt()) && !within(GCCAttr::disinterrupt()) : after() {
 		__eint();
 	}
+	*/
+
+	/*
+	// matches ALL the cases (even indirect calls)
+	advice call(GCCAttr::disinterrupt()) && !cflow(execution(GCCAttr::disinterrupt())) : around() {
+		__dint();
+		tjp->proceed();
+		__eint();
+	}
+	*/
+
+	/*
+	advice call(GCCAttr::disinterrupt()) && !cflow(execution(GCCAttr::disinterrupt())) : before() {
+		__dint();
+	}
+	advice call(GCCAttr::disinterrupt()) && !cflow(execution(GCCAttr::disinterrupt())) : after() {
+		__eint();
+	}
+	*/
+
 };
 
 #endif

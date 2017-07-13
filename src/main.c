@@ -14,11 +14,16 @@ static void busy_wait(void)
 			asm volatile("nop");
 }
 
+static void busy_wait_wrapper(void)
+{
+	busy_wait();
+}
+
 [[GCCAttr::disinterrupt()]]
 static void long_wait(unsigned char count)
 {
 	for (unsigned char i = 0; i < count; i++)
-		busy_wait();
+		busy_wait_wrapper();
 }
 
 [[OS::task()]]
