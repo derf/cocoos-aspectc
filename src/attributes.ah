@@ -28,6 +28,7 @@ namespace TaskAPI {
 namespace GCCAttr {
 	attribute deprecated();
 	attribute disinterrupt();
+	attribute legacy();
 };
 
 aspect ErrorAvoidance {
@@ -37,7 +38,7 @@ aspect ErrorAvoidance {
 			"ISR function called from non-ISR context");
 	}
 
-	advice call(GCCAttr::deprecated()) : before() {
+	advice call(GCCAttr::deprecated()) && !within(GCCAttr::legacy()) : before() {
 		static_assert(sizeof(JoinPoint::That) == 0,
 			"Call to a deprecated function");
 	}
