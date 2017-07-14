@@ -6,9 +6,38 @@ Evt_t leftButtonEvent;
 Evt_t rightButtonEvent;
 Sem_t ledSem;
 
+static void uart_setup(void)
+{
+	UCA0CTLW0 = UCSWRST | UCSSEL__SMCLK;
+	UCA0MCTLW = UCOS16 | (2<<5) | 0xD600;
+	UCA0BR0 = 104;
 
-/*
-[[GCCAttr::disinterrupt()]]
+	UCA0IRCTL = 0;
+	UCA0ABCTL = 0;
+
+	P2SEL0 &= ~(BIT0 | BIT1);
+	P2SEL1 |= BIT0 | BIT1;
+	P2DIR |= BIT0;
+
+	UCA0CTLW0 &= ~UCSWRST;
+}
+
+static void uart_putchar(char c)
+{
+	while (!(UCA0IFG & UCTXIFG));
+	UCA0TXBUF = c;
+
+	if (c == '\n')
+		uart_putchar('\r');
+}
+
+void uart_puts(char *s)
+{
+	while (*s)
+		uart_putchar(*s++);
+}
+
+[[GCCAttr::disinterrupt(), GCCAttr::deprecated()]]
 static void busy_wait(void)
 {
 	for (unsigned int x = 0; x < 100; x++)
@@ -27,8 +56,6 @@ static void long_wait(unsigned char count)
 	for (unsigned char i = 0; i < count; i++)
 		busy_wait_wrapper();
 }
-*/
-
 
 [[OS::task()]]
 static void blink_task(void)
@@ -123,6 +150,8 @@ void system_init(void)
 	TA0CTL |= TACLR;
 	TA0CCR0 = 50;
 	TA0CCTL0 |= CCIE;
+
+	uart_setup();
 }
 
 int main(void)
@@ -137,6 +166,7 @@ int main(void)
 	task_create(led2_task, 3, NULL, 0, 0);
 	task_create(led_task, 4, NULL, 0, 0);
 	os_start();
+
 
 	P4OUT |= BIT6;
 	return 0;
