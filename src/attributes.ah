@@ -109,10 +109,10 @@ aspect ErrorAvoidance {
 
 
 	advice call(GCCAttr::disinterrupt()) && !cflow(execution(GCCAttr::disinterrupt())) : before() {
-		//__dint();
+		__dint();
 	}
 	advice call(GCCAttr::disinterrupt()) && !cflow(execution(GCCAttr::disinterrupt())) : after() {
-		//__eint();
+		__eint();
 	}
 
 
