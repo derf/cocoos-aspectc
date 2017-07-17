@@ -97,7 +97,7 @@ static void led2_task(void)
 	for (;;) {
 		if (!(P1IN & BIT1)) {
 			event_signal(rightButtonEvent);
-			//long_wait(5);
+			long_wait(5);
 		}
 		task_wait(20);
 	}

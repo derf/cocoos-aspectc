@@ -22,7 +22,7 @@ OUTDIR = build
 # define flags
 CFLAGS = -mmcu=$(MCU) -std=c++11 -g -Os -Wall -Wextra -Wunused -ffunction-sections $(INCLUDES)
 ASFLAGS = -mmcu=$(MCU) -x assembler-with-cpp -Wa,-gstabs
-LDFLAGS = -mmcu=$(MCU) -Wl,-Map=$(OUTDIR)/$(TARGET).map -Wl,--library-path=/opt/msp430/ti/gcc/include -Wl,--gc-sections
+LDFLAGS = -mmcu=$(MCU) -Wl,-Map=$(OUTDIR)/$(TARGET).map -Wl,--library-path=/opt/msp430/ti/gcc/include -Wl,--gc-sections -fno-rtti -fno-threadsafe-statics -fno-exceptions
 #######################################
 # end of user configuration
 #######################################
