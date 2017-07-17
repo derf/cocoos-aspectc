@@ -45,13 +45,12 @@ static void busy_wait(void)
 			asm volatile("nop");
 }
 
-[[GCCAttr::legacy()]]
 static void busy_wait_wrapper(void)
 {
 	busy_wait();
 }
 
-[[GCCAttr::disinterrupt(), GCCAttr::legacy()]]
+[[GCCAttr::disinterrupt()]]
 static void long_wait(unsigned char count)
 {
 	for (unsigned char i = 0; i < count; i++)
