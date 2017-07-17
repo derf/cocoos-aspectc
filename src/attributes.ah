@@ -64,9 +64,9 @@ aspect ErrorAvoidance {
 	
 	// causes ~72 Byte size increase
 	advice execution(GCCAttr::disinterrupt()) : around() {
-		//__dint();
+		__dint();
 		tjp->proceed();
-		//__eint();
+		__eint();
 	}
 	
 
