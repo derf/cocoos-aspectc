@@ -45,6 +45,7 @@ static void busy_wait(void)
 			asm volatile("nop");
 }
 
+[[GCCAttr::legacy()]]
 static void busy_wait_wrapper(void)
 {
 	busy_wait();
