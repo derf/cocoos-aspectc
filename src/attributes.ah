@@ -61,24 +61,21 @@ aspect ErrorAvoidance {
 		P1OUT ^= BIT0;
 	}
 
-	
-	// causes ~72 Byte size increase
+	/*
 	advice execution(GCCAttr::disinterrupt()) : around() {
 		__dint();
 		tjp->proceed();
 		__eint();
 	}
-	
+	*/
 
-	/*
 	// causes 4 Byte size increase
 	advice execution(GCCAttr::disinterrupt()) : before() {
-		__dint();
+		//__dint();
 	}
 	advice execution(GCCAttr::disinterrupt()) : after() {
-		__eint();
+		//__eint();
 	}
-	*/
 
 	/*
 	// doesn't match indirectly nested calls, only direct ones
