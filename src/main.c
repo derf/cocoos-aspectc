@@ -31,6 +31,7 @@ static void uart_putchar(char c)
 		uart_putchar('\r');
 }
 
+[[GCCAttr::legacy()]]
 void uart_puts(char *s)
 {
 	while (*s)
