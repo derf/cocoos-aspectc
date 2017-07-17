@@ -117,6 +117,7 @@ static void led_task(void)
 	task_close();
 }
 
+[[GCCAttr::constructor()]]
 void system_init(void)
 {
 	WDTCTL = WDTPW | WDTHOLD;
