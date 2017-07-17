@@ -49,9 +49,9 @@ aspect ErrorAvoidance {
 
 	// for run-time notifications
 	advice call(GCCAttr::deprecated()) && !cflow(execution(GCCAttr::legacy())) : before() {
-		//uart_puts((char *)"Call to deprecated function ");
-		//uart_puts((char *)tjp->signature());
-		//uart_puts((char *)"\n");
+		uart_puts((char *)"Call to deprecated function ");
+		uart_puts((char *)tjp->signature());
+		uart_puts((char *)"\n");
 	}
 
 	/*
