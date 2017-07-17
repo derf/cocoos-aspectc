@@ -79,14 +79,12 @@ aspect ErrorAvoidance {
 	}
 	*/
 
-	/*
 	// doesn't match indirectly nested calls, only direct ones
 	advice call(GCCAttr::disinterrupt()) && !within(GCCAttr::disinterrupt()) : around() {
-		__dint();
+		//__dint();
 		tjp->proceed();
-		__eint();
+		//__eint();
 	}
-	*/
 
 	/*
 	// doesn't match indirectly nested calls, only direct ones
