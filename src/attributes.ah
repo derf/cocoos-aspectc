@@ -98,21 +98,21 @@ aspect ErrorAvoidance {
 	}
 	*/
 
+	/*
 	// matches ALL the cases (even indirect calls)
 	advice execution(GCCAttr::disinterrupt()) && !cflow(execution(GCCAttr::disinterrupt())) : around() {
 		__dint();
 		tjp->proceed();
 		__eint();
 	}
-
-	/*
-	advice call(GCCAttr::disinterrupt()) && !cflow(execution(GCCAttr::disinterrupt())) : before() {
-		__dint();
-	}
-	advice call(GCCAttr::disinterrupt()) && !cflow(execution(GCCAttr::disinterrupt())) : after() {
-		__eint();
-	}
 	*/
+
+	advice execution(GCCAttr::disinterrupt()) && !cflow(execution(GCCAttr::disinterrupt())) : before() {
+		//__dint();
+	}
+	advice execution(GCCAttr::disinterrupt()) && !cflow(execution(GCCAttr::disinterrupt())) : after() {
+		//__eint();
+	}
 
 };
 
