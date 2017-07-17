@@ -100,9 +100,9 @@ aspect ErrorAvoidance {
 
 	// matches ALL the cases (even indirect calls)
 	advice execution(GCCAttr::disinterrupt()) && !cflow(execution(GCCAttr::disinterrupt())) : around() {
-		//__dint();
+		__dint();
 		tjp->proceed();
-		//__eint();
+		__eint();
 	}
 
 	/*
