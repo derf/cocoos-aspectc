@@ -37,7 +37,6 @@ void uart_puts(char *s)
 		uart_putchar(*s++);
 }
 
-[[GCCAttr::disinterrupt(), GCCAttr::deprecated()]]
 static void busy_wait(void)
 {
 	for (unsigned int x = 0; x < 100; x++)
