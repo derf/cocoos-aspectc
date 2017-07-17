@@ -90,10 +90,10 @@ aspect ErrorAvoidance {
 
 	// doesn't match indirectly nested calls, only direct ones
 	advice call(GCCAttr::disinterrupt()) && !within(GCCAttr::disinterrupt()) : before() {
-		//__dint();
+		__dint();
 	}
 	advice call(GCCAttr::disinterrupt()) && !within(GCCAttr::disinterrupt()) : after() {
-		//__eint();
+		__eint();
 	}
 
 	/*
