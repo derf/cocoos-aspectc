@@ -28,6 +28,10 @@ namespace TaskAPI {
 	attribute kill();
 };
 
+namespace FaultDetection {
+	attribute redundant();
+};
+
 namespace GCCAttr {
 	attribute deprecated();
 	attribute disinterrupt();
@@ -41,6 +45,15 @@ aspect ErrorAvoidance {
 		static_assert(sizeof(JoinPoint::That) == 0,
 			"ISR function called from non-ISR context");
 	}
+
+	/*
+	advice set(FaultDetection::redundant()) : after() {
+		char output[] = "   \n";
+		uart_puts((char*)(tjp->signature()));
+		output[1] = '0' + *(JoinPoint::Entity*)(tjp->entity());
+		uart_puts(output);
+	}
+	*/
 
 	/*
 	advice call(GCCAttr::deprecated()) && !within(GCCAttr::legacy()) : before() {
